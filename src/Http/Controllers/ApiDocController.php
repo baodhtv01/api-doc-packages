@@ -14,11 +14,71 @@ class ApiDocController extends Controller
     public function index()
     {
         return view('apidoc::scalar', [
-            'specUrl' => config('apidoc.spec_url', '/openapi.json'),
+            'specUrl' => url(config('apidoc.route', '/api-docs') . '/json'), // Mặc định dùng route tự động
             'theme' => config('apidoc.ui.theme', 'default'),
             'layout' => config('apidoc.ui.layout', 'modern'),
             'hideModels' => config('apidoc.ui.hideModels', false),
             'hideDownloadButton' => config('apidoc.ui.hideDownloadButton', false),
+        ]);
+    }
+
+    /**
+     * Tự động quét các API Route và trả về dạng OpenAPI JSON
+     */
+    public function json()
+    {
+        $routes = \Illuminate\Support\Facades\Route::getRoutes();
+        $paths = [];
+
+        foreach ($routes as $route) {
+            // Chỉ lấy các route thuộc nhóm API
+            if (!str_starts_with($route->uri(), 'api/')) {
+                continue;
+            }
+
+            $uri = '/' . ltrim($route->uri(), '/');
+            if (!isset($paths[$uri])) {
+                $paths[$uri] = [];
+            }
+
+            foreach ($route->methods() as $method) {
+                if ($method === 'HEAD' || $method === 'OPTIONS') continue;
+                $methodLower = strtolower($method);
+                
+                // Tự động phân tích parameters từ URL (ví dụ {user})
+                $parameters = [];
+                preg_match_all('/\{([a-zA-Z0-9_]+)\}/', $uri, $matches);
+                if (!empty($matches[1])) {
+                    foreach ($matches[1] as $param) {
+                        $parameters[] = [
+                            'name' => $param,
+                            'in' => 'path',
+                            'required' => true,
+                            'schema' => ['type' => 'string']
+                        ];
+                    }
+                }
+
+                $paths[$uri][$methodLower] = [
+                    'summary' => $route->getName() ?: "Endpoint " . strtoupper($method) . " " . $uri,
+                    'parameters' => $parameters,
+                    'responses' => [
+                        '200' => [
+                            'description' => 'Successful response'
+                        ]
+                    ]
+                ];
+            }
+        }
+
+        return response()->json([
+            'openapi' => '3.0.0',
+            'info' => [
+                'title' => 'Auto-generated API Docs',
+                'version' => '1.0.0',
+                'description' => 'Tài liệu API được tạo tự động từ Laravel Routes.'
+            ],
+            'paths' => (empty($paths) ? new \stdClass() : $paths),
         ]);
     }
 }

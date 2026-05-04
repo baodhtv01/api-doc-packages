@@ -17,10 +17,10 @@ return [
     |--------------------------------------------------------------------------
     |
     | The URL or local path to your openapi.json or openapi.yaml file.
-    | This can be an absolute URL or a path relative to the public directory.
+    | By default, this package automatically generates a basic spec at /api-docs/json.
     |
     */
-    'spec_url' => '/openapi.json',
+    'spec_url' => '/api-docs/json',
 
     /*
     |--------------------------------------------------------------------------
