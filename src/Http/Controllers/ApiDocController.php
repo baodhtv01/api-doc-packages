@@ -45,6 +45,11 @@ class ApiDocController extends Controller
                 if ($method === 'HEAD' || $method === 'OPTIONS') continue;
                 $methodLower = strtolower($method);
                 
+                // Tự động group dựa trên prefix sau 'api/'
+                $uriWithoutApi = ltrim(substr($route->uri(), 4), '/');
+                $segments = explode('/', $uriWithoutApi);
+                $groupName = !empty($segments[0]) ? ucfirst($segments[0]) : 'General';
+
                 // Tự động phân tích parameters từ URL (ví dụ {user})
                 $parameters = [];
                 preg_match_all('/\{([a-zA-Z0-9_]+)\}/', $uri, $matches);
@@ -60,6 +65,7 @@ class ApiDocController extends Controller
                 }
 
                 $paths[$uri][$methodLower] = [
+                    'tags' => [$groupName], // Nhóm các API lại với nhau
                     'summary' => $route->getName() ?: "Endpoint " . strtoupper($method) . " " . $uri,
                     'parameters' => $parameters,
                     'responses' => [

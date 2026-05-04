@@ -80,19 +80,26 @@ File `config/apidoc.php` sẽ được tạo ra trong thư mục `config` của 
 
 ## Hướng dẫn sử dụng
 
-1. **Chuẩn bị file OpenAPI**:
-   Package này hoạt động dựa trên đặc tả OpenAPI (Swagger spec). 
-   Bạn cần tạo hoặc generate một file `openapi.json` và lưu nó vào thư mục `public/` của project Laravel (ví dụ: `public/openapi.json`).
+Package được thiết kế theo tiêu chí **Plug and Play** (Cài là chạy, không cần cấu hình phức tạp).
 
-   *Lưu ý: Bạn cũng có thể dùng `openapi.yaml` hoặc một đường dẫn URL từ bên ngoài, chỉ cần cập nhật `spec_url` trong `config/apidoc.php`.*
+Ngay sau khi cài đặt thành công, package sẽ **tự động quét toàn bộ các route bắt đầu bằng `api/`** trong ứng dụng Laravel của bạn (như `api/users`, `api/products`...) và tự động sinh ra giao diện tài liệu mà bạn không cần phải tự viết bất kỳ file JSON hay cấu hình nào! 
 
-2. **Truy cập tài liệu**:
-   Khởi động server:
+Các API sẽ được **tự động Group (nhóm lại)** dựa trên đường dẫn (Ví dụ: `api/users` và `api/users/{id}` sẽ được gom chung vào nhóm **Users**).
+
+1. **Khởi động server**:
    ```bash
    php artisan serve
    ```
-   Truy cập vào địa chỉ mặc định trên trình duyệt:
+2. **Truy cập tài liệu**:
+   Mở trình duyệt và truy cập vào địa chỉ mặc định:
    **[http://localhost:8000/api-docs](http://localhost:8000/api-docs)**
+   
+3. **Tuỳ chỉnh (Tùy chọn)**:
+   Nếu bạn muốn thay đổi route mặc định hoặc dùng một file `openapi.json` tự viết (thay vì tự động quét), bạn có thể chạy lệnh publish config:
+   ```bash
+   php artisan vendor:publish --tag=apidoc-config
+   ```
+   Sau đó sửa file `config/apidoc.php` tuỳ ý.
 
 ## License
 
