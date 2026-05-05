@@ -11,64 +11,87 @@
             margin: 0;
             padding: 0;
             font-family: 'Outfit', sans-serif;
-            background-color: #0d0f12; /* Dark theme default */
+            background-color: #09090b; /* Deep zinc background */
+            /* Premium animated background glow */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.12), transparent 30%),
+                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.12), transparent 30%);
+            background-attachment: fixed;
+            color: #f8fafc;
+        }
+
+        /* Custom Modern Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.2);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(148, 163, 184, 0.4);
         }
 
         /* 
          * PREMIUM THEME CUSTOMIZATION 
-         * Lấy cảm hứng từ Vercel, Stripe & Linear 
          */
         :root {
             /* Typography */
             --scalar-font: 'Outfit', sans-serif;
             --scalar-font-code: 'Fira Code', monospace;
 
-            /* Vibrant Accent Colors (Màu chủ đạo) */
-            --scalar-color-accent: #6366f1; /* Indigo 500 */
-            --scalar-button-1: #6366f1;
+            /* Vibrant Accent Colors */
+            --scalar-color-accent: #818cf8; /* Indigo 400 */
+            --scalar-button-1: #6366f1; /* Indigo 500 */
             --scalar-button-1-hover: #4f46e5;
             --scalar-button-1-color: #ffffff;
             
-            /* Method Colors (Vibrant) */
-            --scalar-color-green: #10b981; /* GET */
-            --scalar-color-yellow: #f59e0b; /* POST */
-            --scalar-color-blue: #3b82f6;   /* PUT */
-            --scalar-color-red: #ef4444;    /* DELETE */
+            /* Method Colors (Vibrant & Accessible) */
+            --scalar-color-green: #10b981; 
+            --scalar-color-yellow: #f59e0b; 
+            --scalar-color-blue: #3b82f6;   
+            --scalar-color-red: #ef4444;    
 
-            /* Animations & Transitions */
+            /* Global Styles & Animations */
             --scalar-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --scalar-radius: 12px;
+            --scalar-radius-button: 8px;
         }
 
-        /* Tùy chỉnh Dark Mode (Mặc định cho cảm giác Premium) */
+        /* Dark Mode (Glassmorphism effect) */
         .dark-mode, :root {
-            /* Backgrounds (Sleek Dark) */
-            --scalar-background-1: #0d0f12;
-            --scalar-background-2: #161920;
-            --scalar-background-3: #1e222b;
+            /* Semi-transparent backgrounds to let the body glow show through */
+            --scalar-background-1: rgba(9, 9, 11, 0.6); 
+            --scalar-background-2: rgba(24, 24, 27, 0.5);
+            --scalar-background-3: rgba(39, 39, 42, 0.5);
             
-            /* Sidebar (Glassmorphism effect) */
-            --scalar-sidebar-background-1: #0d0f12;
-            --scalar-sidebar-item-hover-background: rgba(99, 102, 241, 0.1);
-            --scalar-sidebar-item-active-background: rgba(99, 102, 241, 0.15);
+            /* Sidebar */
+            --scalar-sidebar-background-1: rgba(9, 9, 11, 0.4);
+            --scalar-sidebar-item-hover-background: rgba(99, 102, 241, 0.15);
+            --scalar-sidebar-item-active-background: rgba(99, 102, 241, 0.25);
             
             /* Text Colors */
             --scalar-color-1: #f8fafc;
             --scalar-color-2: #cbd5e1;
             --scalar-color-3: #94a3b8;
 
-            /* Borders */
+            /* Subtle borders */
             --scalar-border-color: rgba(255, 255, 255, 0.08);
         }
 
-        /* Tùy chỉnh Light Mode */
+        /* Light Mode */
         .light-mode {
-            --scalar-background-1: #ffffff;
-            --scalar-background-2: #f8fafc;
-            --scalar-background-3: #f1f5f9;
+            --scalar-background-1: rgba(255, 255, 255, 0.8);
+            --scalar-background-2: rgba(248, 250, 252, 0.7);
+            --scalar-background-3: rgba(241, 245, 249, 0.7);
             
-            --scalar-sidebar-background-1: #f8fafc;
-            --scalar-sidebar-item-hover-background: rgba(99, 102, 241, 0.05);
-            --scalar-sidebar-item-active-background: rgba(99, 102, 241, 0.1);
+            --scalar-sidebar-background-1: rgba(248, 250, 252, 0.8);
+            --scalar-sidebar-item-hover-background: rgba(99, 102, 241, 0.08);
+            --scalar-sidebar-item-active-background: rgba(99, 102, 241, 0.15);
             
             --scalar-color-1: #0f172a;
             --scalar-color-2: #334155;
@@ -77,20 +100,10 @@
             --scalar-border-color: rgba(0, 0, 0, 0.06);
         }
 
-        /* Micro-animations: Làm cho sidebar items nảy nhẹ khi hover */
-        .scalar-api-reference .sidebar-item {
-            transition: transform 0.2s ease, background-color 0.2s ease !important;
-        }
-        .scalar-api-reference .sidebar-item:hover {
-            transform: translateX(4px);
-        }
-
-        /* Làm bóng các card chứa Request/Response */
-        .scalar-api-reference .card {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
-            border-radius: 12px !important;
-            border: 1px solid var(--scalar-border-color) !important;
-            backdrop-filter: blur(8px);
+        /* Custom overrides for Scalar Shadow DOM/Elements if applicable */
+        .scalar-api-reference {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
     </style>
 </head>
